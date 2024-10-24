@@ -1,0 +1,21 @@
+{
+  "name": "backend-project-dungeon",
+  "version": "0.0.1",
+  "description": "node api for project dungeon",
+  "main": "entry.ts",
+  "scripts": {
+    "test": "npx tsx entry.ts debug"
+  },
+  "author": "Berta",
+  "license": "ISC",
+  "dependencies": {
+    "dotenv": "^16.4.5",
+    "express": "^4.21.1"
+  },
+  "devDependencies": {
+    "@types/express": "^5.0.0",
+    "tsc-alias": "^1.8.10",
+    "tsconfig-paths": "^4.2.0",
+    "typescript": "^5.6.3"
+  }
+}
