@@ -1,4 +1,6 @@
 import Express, { Application, Request, Response, NextFunction, ErrorRequestHandler } from "express"
+import { MongoClient, ServerApiVersion } from "mongodb"
+import helmet from "helmet"
 import { promises } from "fs";
 import dotenv from "dotenv";
 
@@ -18,8 +20,14 @@ export const initServer = async (debug: Boolean) => {
     }
 
     const app: Application = Express();
+    const db_Client: MongoClient | undefined = await connectDatabase(debug);
 
-    await loadRoutes(app);
+    if (!db_Client) {
+        console.error("Database connection error, shutting down");
+        return;
+    }
+
+    await loadRoutes(app, db_Client, debug);
 
     app.listen(process.env.PORT, () => {
         console.log("\nApi running on port: ", process.env.PORT);
@@ -39,7 +47,11 @@ export const initServer = async (debug: Boolean) => {
     return app;
 }
 
-export const loadRoutes =  async (app: Application) => {
+export const loadMiddlewares = (app: Application) => {
+    app.use(helmet());
+}
+
+export const loadRoutes = async (app: Application, db_Client: MongoClient, debug: Boolean) => {
     app.use((err: Error, req: Request, res: Response, next: NextFunction) => {
         console.error(err.stack);
         res.status(500).send("Something broke!");
@@ -55,9 +67,18 @@ export const loadRoutes =  async (app: Application) => {
         for (const routeFile of categoryDir) {
             const routePath = `./routes/${restDirCategory}/${routeFile}`;
             const routeData: DefaultRestRoute = (await import(routePath)).default;
+            
+            const db_Middleware = async (req: Request, res: Response, next: NextFunction) => {
+                req.db_Client = db_Client;
+                req.db = db_Client.db(debug ? "dev" : "prod");
+
+                next();
+            }
 
             // Validate route data
             if (validateRouteData(routeData)) {
+            routeData.middlewares.push(db_Middleware);
+
             app[routeData.method](
                 `/${restDirCategory}/${routeData.endpoint}`,
                 routeData.middlewares,
@@ -73,6 +94,29 @@ export const loadRoutes =  async (app: Application) => {
         console.error("Error while setting up routes:", error);
         // Handle and log errors gracefully
     }
+}
+
+export const connectDatabase = async (debug: Boolean) => {
+    if (!process.env.DATABASE_CONNECTION_STRING) { return; }
+
+    const client = new MongoClient(process.env.DATABASE_CONNECTION_STRING, {
+        serverApi: {
+            version: ServerApiVersion.v1,
+            strict: true,
+            deprecationErrors: true,
+        }
+    });
+
+    try {
+        await client.connect();
+        await client.db(debug ? "dev" : "prod").command({ ping: 1 });
+        console.log("Succesfully connected to the database");
+    }
+    catch(err) {
+        console.error("Database connection error: " + err);
+    }
+
+    return client;
 }
 
 export const validateRouteData = (routeData: any): routeData is DefaultRestRoute => {

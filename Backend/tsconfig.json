@@ -11,10 +11,10 @@
       "paths": {
         "@routes/*": ["src/routes/*"],
         "@interfaces/*": ["src/interfaces/*"],
+        "@middlewares/*": ["src/middlewares/*"],
+        "@modules/*": ["src/modules/*"],
         /*
         "@noCategory/*": ["backend/src/*"],
-        "@middlewares/*": ["backend/src/middlewares/*"],
-        "@modules/*": ["backend/src/modules/*"],
         "@tests/*": ["backend/src/tests/*"
         */
       },
