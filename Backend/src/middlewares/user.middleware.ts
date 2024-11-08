@@ -1,5 +1,7 @@
 import { RequestHandler, Request, Response, NextFunction } from "express";
 import { errorDefault } from "@modules/errors.module.js";
+import passport from "passport";
+import { ResponseError } from "@interfaces/response.interface";
 
 export const dateIsValid = (date: string | number) => {
     const parsedDate = new Date(date);
@@ -28,8 +30,8 @@ export const registerMW = (req: Request, res: Response, next: NextFunction): voi
         return;
     }
 
-    if (!req.body.birthday) {
-        errorDefault.message = "Request body.birthday parameter is missing or empty";
+    if (!req.body.displayName) {
+        errorDefault.message = "Request body.displayName parameter is missing or empty";
         res.status(400).json(errorDefault);
         return;
     }
@@ -88,3 +90,22 @@ export const loginMW = (req: Request, res: Response, next: NextFunction): void =
 
     next();
 }
+
+export const loginPassportMW = (req: Request, res: Response, next: NextFunction): void => {
+    passport.authenticate("user-login-email-strategy", (error: any, user?: Express.User | false, data?: any) => {
+        if (error) { return next(error); }
+        if (!user) { 
+            const userDataResponse: ResponseError = {
+                status: "error",
+                message: "Error, " + data.message
+            };
+    
+            res.status(400).json(userDataResponse);
+            return;
+        }
+
+        req.logIn(user, () => {});
+
+        next();
+    })(req, res, next);
+};

@@ -1,8 +1,11 @@
 import Express, { Application, Request, Response, NextFunction, ErrorRequestHandler } from "express"
 import { MongoClient, ServerApiVersion } from "mongodb"
 import helmet from "helmet"
+import expressSessions from "express-session"
+import cookieParser from "cookie-parser"
 import { promises } from "fs";
 import dotenv from "dotenv";
+import { initPassport } from "@modules/passport.module";
 
 import { DefaultRestRoute } from "@interfaces/routes.interface.js";
 
@@ -24,9 +27,11 @@ export const initServer = async (debug: Boolean) => {
 
     if (!db_Client) {
         console.error("Database connection error, shutting down");
-        return;
+        process.exit(1);
     }
 
+    loadMiddlewares(app);
+    initPassport(app, db_Client, debug);
     await loadRoutes(app, db_Client, debug);
 
     app.listen(process.env.PORT, () => {
@@ -48,7 +53,20 @@ export const initServer = async (debug: Boolean) => {
 }
 
 export const loadMiddlewares = (app: Application) => {
+    if (!process.env.COOKIE_SECRET) { 
+        console.error("Error, COOKIE_SECRET env variable is missing, shutting down");
+        process.exit(1); 
+    }
+
+    app.use(Express.json());
+    app.use(Express.urlencoded({ extended: true }));
+    app.use(cookieParser(process.env.COOKIE_SECRET));
     app.use(helmet());
+    app.use(expressSessions({
+        secret: process.env.COOKIE_SECRET,
+        resave: true,
+        saveUninitialized: true
+    }));
 }
 
 export const loadRoutes = async (app: Application, db_Client: MongoClient, debug: Boolean) => {
@@ -114,6 +132,7 @@ export const connectDatabase = async (debug: Boolean) => {
     }
     catch(err) {
         console.error("Database connection error: " + err);
+        return;
     }
 
     return client;
