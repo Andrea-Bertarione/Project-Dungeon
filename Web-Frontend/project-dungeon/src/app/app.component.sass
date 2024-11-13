@@ -1,0 +1,179 @@
+.sidebar
+    position: sticky
+    width: 0
+    height: 0
+
+    top: 0px
+    left: 0px
+
+    transition: all 0.25s
+
+    z-index: 2
+
+    .stickybar
+        position: sticky
+
+        top: 0px
+        left: 0px
+
+        display: flex
+        flex-direction: row
+
+        transition: all 0.25s
+        height: 70vh
+        padding-top: 15vh
+
+        &.open
+            width: 35vw
+
+        &.closed
+            width: 5vw
+
+        &:before
+            display: inherit
+
+            background: repeating-linear-gradient(to right,#cfba95 ,#aa8f5f 7%,#aa8f5f 5%)
+            
+            content: ""
+            height: 100%
+            width: 90%
+
+        &.open:before 
+            display: none
+
+        .container
+            display: flex
+            align-items: center
+
+            transition: width, height, box-shadow 0.75s
+            background-image: url("/assets/textures/book_outside_texture.jpg")
+            background-size: cover
+            background-repeat: no-repeat
+            
+            box-sizing: border-box
+
+            &.open
+                width: 100%
+                height: 100%
+            
+                border-top-right-radius: 30px
+                border-bottom-right-radius: 30px
+
+                
+            &.closed
+                width: 20%
+                height: 100%
+
+                border-top-right-radius: 10px
+                border-bottom-right-radius: 10px
+            
+            &:before
+                display: inherit
+                content: ""
+                width: 90%
+                height: 95%
+
+                margin-bottom: 3.5%
+
+                box-shadow: 5px 5px 0px 0px #3a3023, 10px 10px 0px 0px #29231c, 15px 15px 0px 0px #161513, 15px 15px 0px 0px #161615
+
+                background-image: url("/assets/textures/book_texture.jpg")
+                background-size: cover
+                background-repeat: no-repeat
+
+                border-top-right-radius: 5px
+                border-bottom-right-radius: 5px
+
+            &.closed:before 
+                display: none
+            
+            &:after
+                content: ""
+                display: flex
+                position: absolute
+                width: 100%
+                height: 70vh
+                box-shadow: inset 60px 0px 30px 0px #000
+                border-top-right-radius: 5px
+                border-bottom-right-radius: 5px
+
+                left: -20%
+                animation: spawn-shadow 200ms linear forwards
+
+
+            &.closed:after
+                display: none
+
+        .openbutton
+            position: absolute
+            background: url("/assets/textures/book_outside_texture.jpg"), linear-gradient(to bottom, #4E3B31, #A67C5D)
+            box-shadow: 2px 0 5px rgba(0, 0, 0, 0.3)
+
+            border-bottom-right-radius: 10px
+            z-index: 3
+
+            transition: all 0.25s
+            
+            .btn
+                display: flex
+
+                cursor: pointer
+
+                align-items: center
+                justify-content: center
+
+                width: 100%
+                height: 100%
+
+                font-family: "Lucida Console", "Courier New", monospace
+                font-size: 30px
+
+                transition: all 0.25s
+
+                &.open:hover 
+                    animation: arrow-left 1000ms linear infinite
+                &.closed:hover 
+                    animation: arrow-right 1000ms linear infinite
+                
+
+            &.open
+                width: 8%
+                height: 5%
+
+                left: 90%
+                top: 23%
+
+            &.closed
+                width: 60%
+                height: 5%
+
+                left: 50%
+                top: 23%
+    
+@keyframes arrow-right 
+    0% 
+        transform: translateX(0px)
+        opacity: 1
+		
+    100% 
+        transform: translateX(10px)
+        opacity: 0
+
+@keyframes arrow-left 
+    0% 
+        transform: translateX(0px)
+        opacity: 1
+		
+    100% 
+        transform: translateX(-10px)
+        opacity: 0
+
+
+@keyframes spawn-shadow
+    0% 
+        left: -20%
+        opacity: 0.7
+		
+    100% 
+        left: 0
+        opacity: 1

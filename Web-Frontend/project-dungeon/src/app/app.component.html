@@ -1,1 +1,12 @@
+<div class="sidebar">
+    <div [ngClass]="['stickybar', this.isOpen ? 'open' : 'closed']">
+        <div [ngClass]="['container', this.isOpen ? 'open' : 'closed']">
+
+        </div>
+        <div [ngClass]="['openbutton', this.isOpen ? 'open' : 'closed']">
+            <div [ngClass]="['btn', this.isOpen ? 'open' : 'closed']" (click)="openBar()">{{this.isOpen ? "⇦" : "⇨"}}</div>
+        </div>
+    </div>
+</div>
+
 <router-outlet></router-outlet>

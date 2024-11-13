@@ -1,18 +1,22 @@
 <div class="background-wrapper">
-	<div class="invisible-header">
-		<div class="sidebar-button">
-			<img src="/assets/images/sidebar-button.png" alt="image">
+	<div class="first-section">
+		<div class="invisible-header">
+			<div class="Dungeon-Title">
+				
+			</div>
 		</div>
-		<div class="Dungeon-Title">
-			<img src="/assets/images/title.png" alt="image">
+		<div class="main-page">
+			<div class="starter-welcome text">
+				<img src="/assets/images/title.png">
+				<a class="join-button" href="/login">
+					<img src="/assets/images/join_button.png">
+				</a>
+			</div>
 		</div>
+
+		<div class="arrow-pulse-down" #secondSectionElem (click)="showSection(secondSectionElem)"></div>
 	</div>
-	<div class="main-page">
-		<div class="starter-welcome text">
-			<p>Welcome to the ultimate</p>
-			<img src="/assets/images/dnd.png">
-			<p>experience</p>
-			<a class="join-button" href="/login">Join the adventure</a>
-		</div>
+	<div class="second-section">
+
 	</div>
 </div>
