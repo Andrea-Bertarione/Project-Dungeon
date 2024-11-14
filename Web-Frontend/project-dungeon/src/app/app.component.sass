@@ -27,7 +27,7 @@
             width: 35vw
 
         &.closed
-            width: 5vw
+            width: 3vw
 
         &:before
             display: inherit
@@ -126,7 +126,7 @@
                 height: 100%
 
                 font-family: "Lucida Console", "Courier New", monospace
-                font-size: 30px
+                font-size: 40px
 
                 transition: all 0.25s
 
@@ -149,7 +149,122 @@
 
                 left: 50%
                 top: 23%
-    
+        
+        .bookmark
+            position: absolute
+            display: flex
+
+            cursor: pointer
+
+            align-items: center
+            justify-content: center
+            box-shadow: 4px 4px 5px rgba(32, 32, 32, 0.7)
+
+            background-image: url("/assets/textures/paper_texture.png")
+            background-repeat: no-repeat
+            background-size: cover
+
+            border-bottom-right-radius: 20px
+
+            width: 70%
+            height: 5%
+
+            transition: all 0.5s
+            border: 2px solid #2e251e
+            border-left: 7px solid #2e251e
+
+            img
+                transition: all 0.5s
+                width: 80%
+                height: 80%
+                border-radius: 30%
+
+            &.open
+                display: none
+            
+            &:hover img
+                transition: all 0.5s
+                background: rgba(255, 255, 255, 0.2)
+                transform: scale(1.05)
+
+            &.closed
+                animation: slide-from-left 0.7s forwards
+                
+
+            .tooltip
+                isolation: isolate
+
+                display: flex
+                position: absolute
+                width: 0%
+                height: 70%
+                left: 80%
+                background-image: url("/assets/textures/paper_texture.png")
+                background-repeat: no-repeat
+                background-size: cover
+                align-items: center
+                justify-content: center
+                transition: all 1s
+                opacity: 0
+                border-radius: 10px
+
+                //border: 2px solid #2e251e
+                //border-left: 0px solid #2e251e
+                box-shadow: 4px 4px 5px rgba(32, 32, 32, 0.7)
+                font-family: 'Brush Script MT', cursive
+                font-size: 20px
+
+                animation: disappear-tooltip 0.55s forwards
+
+                z-index: -1
+                
+            &:hover .tooltip
+                transition: all 1s
+                animation: appear-tooltip 0.55s forwards
+                
+                
+@keyframes appear-tooltip
+    0%
+        opacity: 0
+        width: 0%
+        color: rgba(0, 0, 0, 0)
+
+    70%
+        color: rgba(0, 0, 0, 0)
+
+    100%
+        opacity: 1
+        width: 400%
+        color: #000000
+
+@keyframes disappear-tooltip
+    0%
+        opacity: 1
+        width: 400%
+        color: #000000
+        
+
+    30%
+        color: rgba(0, 0, 0, 0)
+
+    100%
+        opacity: 0
+        width: 0%
+        
+@keyframes slide-from-left
+    0%
+        opacity: 0
+        transform: translateX(-300px) scaleX(0)
+
+    10%
+        opacity: 0
+        transform: translateX(-300px) scaleX(0)
+
+    100%
+        opacity: 1
+        transform: translateX(0px) scaleX(1)
+
+
 @keyframes arrow-right 
     0% 
         transform: translateX(0px)

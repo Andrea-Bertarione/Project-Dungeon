@@ -6,6 +6,13 @@
         <div [ngClass]="['openbutton', this.isOpen ? 'open' : 'closed']">
             <div [ngClass]="['btn', this.isOpen ? 'open' : 'closed']" (click)="openBar()">{{this.isOpen ? "⇦" : "⇨"}}</div>
         </div>
+
+        <div *ngFor="let bookmark of bookmarks" [ngClass]="['bookmark', this.isOpen ? 'open' : 'closed']" [ngStyle]="{'background-color': bookmark.color, 'top': bookmark.top, 'left': bookmark.left}">
+            <img src="/assets/icons/{{ bookmark.icon }}">
+            <div class="tooltip" [ngStyle]="{'background-color': bookmark.color}">
+                <p>{{ bookmark.text }}</p>
+            </div>
+        </div>
     </div>
 </div>
 
