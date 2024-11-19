@@ -58,6 +58,7 @@
             
                 border-top-right-radius: 30px
                 border-bottom-right-radius: 30px
+                overflow: hidden
 
                 
             &.closed
@@ -109,7 +110,9 @@
             background: url("/assets/textures/book_outside_texture.jpg"), linear-gradient(to bottom, #4E3B31, #A67C5D)
             box-shadow: 2px 0 5px rgba(0, 0, 0, 0.3)
 
-            border-bottom-right-radius: 10px
+            border: 2px solid #2e251e
+            border-left: 7px solid #2e251e
+            border-bottom-right-radius: 20px
             z-index: 3
 
             transition: all 0.25s
@@ -144,7 +147,7 @@
                 top: 23%
 
             &.closed
-                width: 60%
+                width: 70%
                 height: 5%
 
                 left: 50%
