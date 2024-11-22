@@ -1,9 +1,15 @@
 <div class="background-wrapper">
 	<div class="first-section">
 		<div class="invisible-header">
-			<div class="loginSign">
-				<a class="loginText" href="{{ accountHandler.loggedIn ? '/profile' : '/login' }}">
-					{{ accountHandler.loggedIn ? "Welcome back, " +  accountHandler.username : "You don't have \n an account yet? \n Join here" }}
+			<a class="loginText" href="/profile" [ngStyle]="{'visibility': this.accountHandler.loggedIn ? 'visible' : 'hidden'}">
+				Welcome back
+			</a>
+			<div class="listHeader" [ngStyle]="{'visibility': !this.accountHandler.loggedIn ? 'visible' : 'hidden'}">
+				<a class="headersBtns" href="/login#register">
+					Register
+				</a>
+				<a class="headersBtns" id="loginBTN" href="/login#login" >
+					Login
 				</a>
 			</div>
 			<div class="Dungeon-Title">
